@@ -5,9 +5,10 @@
     <title>shadow's</title>
 
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="stylesheet" href="{% static 'css/jqui.css' %}">
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
-    <link rel="stylesheet" href="{% static 'fonta/css/all.css' %}">
+    
     <link rel="stylesheet" href="{% static 'css/allll.css' %}">
     <link rel="stylesheet" href="{% static 'css/bar.css' %}">
   <style type="text/css">
@@ -20,12 +21,12 @@
         <div class="container">
             <a class="logo" href="{%url 'home' %}"><img src="{% static 'img/logoo.jpg' %}" style="width: 100px;"></a> 
             <a id="mobile-menu" class="mobile-menu">
-                <i class="fa fa-list" style="color: blue;"></i>
+                <i class="fa fa-bars" style="color: blue;"></i>
             </a> 
             
             <nav>
                 <a id="mobile-exit" class="mobile-menu-exit">
-                    <i class="fa fa-times" style="color: white;"></i>
+                    <i class="fa fa-close" style="color: white;"></i>
                 </a>
                 <ul class="primary-nav">
                     <li class="current"><a href="{%url 'home' %}">Homepage</a></li>
