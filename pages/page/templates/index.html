@@ -1,0 +1,200 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<style type="text/css">                                                                 
+
+.heea{
+  display: block;
+  width: 100%;
+  margin: 0 auto;
+}
+
+.cola{
+  display: block;
+  margin: 0;
+}
+.feature-img{
+  margin-right: 5px;
+  width: 100%;
+  
+}
+
+.play-btn{
+  width: 60px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+  cursor: pointer;
+
+}
+
+.small-img .play-btn{
+  width: 35px;
+}
+
+.video-player{
+  width: 60%;
+  height: 100vh;
+  position: fixed;
+  left: 0;
+  top: 0;
+  background: rgba(0,0,0,.9);
+  visibility: hidden;
+  opacity: 0;
+  z-index: 999;
+
+}
+video{
+  width: 100%;
+  position: absolute;
+  top: 50%;
+
+}
+
+video:focus{
+  outline: none;
+}
+@media only screen and (min-width: 768px){
+  .container{
+    display: flex;
+    
+    text-align: left;
+  }
+  .feature-img{
+   width: 40%;
+  }
+  
+  .video-player{
+    width: 30%;
+    position: absolute;
+    z-index: 999;
+
+  }
+  video{
+    width: 100%;
+  }
+}
+
+</style>
+
+<div class="container kiff" style="margin-bottom: 8px; margin-top: 55px;">
+    <form action="{%url 'sermons' %}" style="position: fixed; z-index: 100; display: flex;" class="col-sm-12 col-md-12 col-lg-8 kif" autocomplete="off" method="GET">
+       <div class="search-input">
+           <input type="text" id="name" name="search" placeholder="lookup 4 sermons">
+           <input type="submit" class="btn btn-success" value="search">
+           <div class="autocom-box">
+               
+           </div>
+        </div>
+
+    </form>
+</div>
+<br>
+<br>
+<br>
+<hr>
+<div class="container">
+      
+        <div class="feature-img col-lg-6">
+            <h1>January top 10</h1>
+            {% if  c%}
+            <h4>
+              {{c.name}}
+            </h4>
+            <p>
+              {{c.description}}
+            </p>
+            <a style="text-decoration: none;" href="{{c.get_absolute_url}}">Listen Now</a>
+            <br>
+            <i class="fa fa-play" style="text-decoration: none; width: 150px; border-radius: 2px; outline: solid 2px blue; padding: 15px 35px; cursor: pointer; color: white; background:blue;" onClick="playVideo('{{au.song.url}}')"></i>
+            {% endif %}
+        </div>
+        <br>
+        <br>
+        <hr>
+        <div class="col-lg-6">           
+          <div class="row">
+            {% for aud in qs %}
+            <div class="col-md-6 col-lg-6">
+                <div class="carda" style="width: 100%; max-height: 400px; margin-right: 5px; margin-bottom: 8px;">
+                  <h4>
+                    {{aud.name}}
+                  </h4>
+                  <p>
+                    {{aud.description}}
+                  </p>
+                  <a style="text-decoration: none;" href="{{aud.get_absolute_url}}">Listen Now</a>
+                  <br>
+                  <br>
+                  <a style="text-decoration: none; width: 150px; border-radius: 2px; outline: solid 2px blue; padding: 15px 35px; cursor: pointer; color: white; background:blue;" onClick="playVideo('{{aud.song.url}}')">Listen Now</a>
+                  <br>
+                  <br>
+                </div>
+            </div>
+            {% endfor %}
+          </div>
+          <br>
+          <div class="row" style="margin-top: 20px">
+              <div class="col-md-3 offset-md-4">
+                  <ul class="pagination">
+                      {% if qs.has_previous %}
+                          <li class="page-item">
+                              <a class="page_link" href="?page={{ qs.previous_page_number }}" style="text-decoration: none; width: 150px; border-radius: 2px; outline: solid 2px blue; padding: 15px 35px; cursor: pointer; margin-right: 5px;">Previous</a>
+                          </li>
+                      {% endif %}
+
+                          <li class="page-item active">
+                              <a class="page_link" href="?page={{ qs.number }}" style="text-decoration: none; width: 150px; border-radius: 2px; outline: solid 2px blue; padding: 15px 35px; cursor: pointer; margin-right: 5px;">Current</a>
+                          </li>
+                      
+                      {% if qs.has_next  %}
+                          <li class="page-item">
+                              <a class="page_link" href="?page={{ qs.next_page_number }}" style="text-decoration: none; width: 150px; border-radius: 2px; outline: solid 2px blue; padding: 15px 35px; cursor: pointer; margin-right: 5px;">Next</a>
+                          </li>
+                      {% endif %}
+                  </ul>
+              </div>
+          </div>
+        </div>                   
+      
+</div>
+      
+      <div class="video-player" id="videoPlayer"/>
+          <video width="100%" controls id="myVideo">
+              
+          </video>
+          <a style="text-decoration: none; width: 150px; border-radius: 2px; outline: solid 2px blue; padding: 15px 35px; cursor: pointer; color: white; top: 4px; position: absolute;" onClick="stopVideo()">close</a>
+      </div>
+</div>
+
+
+
+    <script src="{% static 'js/sarrr.js' %}"></script>
+    <script type="text/javascript">
+    const student = [
+      {% for stu in qs %}
+        {name: "{{stu.name}}" },
+      {% endfor %}
+        ]
+    </script>
+    <script>
+          const videoPlayer = document.getElementById("videoPlayer");
+          const myVideo = document.getElementById("myVideo");
+          const video = document.querySelector("video");
+          
+          function stopVideo(){
+              
+              videoPlayer = videoPlayer.style.visibility = "hidden";
+
+              video.pause();
+              video.currentTime = 0;
+          }
+          function playVideo(file){
+              myVideo.src = file;
+              videoPlayer.style.visibility = "visible";
+              videoPlayer.style.opacity = 1;
+          }
+    </script>
+
+{% endblock content %}

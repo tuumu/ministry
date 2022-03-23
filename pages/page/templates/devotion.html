@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+
+    <div class="container kiff" style="margin-bottom: 8px; margin-top: 55px;">
+        <form action="{%url 'devotions' %}" style="position: fixed; z-index: 100; display: flex; margin-top: 0;" class="col-sm-12 col-md-12 col-lg-8 kif" autocomplete="off" method="GET">
+           <div class="search-input">
+               <input type="text" id="name" name="search" placeholder="lookup 4 devotions">
+               <input type="submit" class="btn btn-success" value="search">
+               <div class="autocom-box">
+                   
+               </div>
+            </div>
+
+        </form>
+    </div>
+    <br>
+    <br>
+    <hr>
+    <div class="container py-3" style="margin-top: 10px;">
+     
+        <div class="row">
+            {% for obj in qs %}
+            <div  class=" col-md-6 col-lg-6">
+                <div class="carda" style="width: 100%; max-height: 400px; margin-right: 5px; margin-bottom: 8px;">
+                    <h1>{{obj.title}}</h1> 
+                    <p>{{obj.snippet}}</p> 
+                    <a href="{{obj.get_absolute_url}}" style="text-decoration: none; font-size: .9em; margin-right: 5px; color: blue;">read more</a>
+                    <strong>{{com.count}} Comments</strong>  
+                </div>
+            </div>
+            {% endfor %}            
+        </div> 
+        <br>
+        <br>
+      
+    </div>
+    <div class="row">
+        <div class="col-md-3 offset-md-4">
+            <ul class="pagination">
+                {% if qs.has_previous %}
+                    <li class="page-item">
+                        <a class="page_link" href="?page={{ qs.previous_page_number }}" style="text-decoration: none; width: 150px; border-radius: 2px; outline: solid 2px blue; padding: 15px 35px; cursor: pointer; margin-right: 5px;">Previous</a>
+                    </li>
+                {% endif %}
+
+                    <li class="page-item active">
+                        <a class="page_link" href="?page={{ qs.number }}" style="text-decoration: none; width: 150px; border-radius: 2px; outline: solid 2px blue; padding: 15px 35px; cursor: pointer; margin-right: 5px;">Current</a>
+                    </li>
+                
+                {% if qs.has_next  %}
+                    <li class="page-item">
+                        <a class="page_link" href="?page={{ qs.next_page_number }}" style="text-decoration: none; width: 150px; border-radius: 2px; outline: solid 2px blue; padding: 15px 35px; cursor: pointer; margin-right: 5px;">Next</a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+
+
+    <script src="{% static 'js/sarr.js' %}"></script>
+    <script type="text/javascript">
+    const students = [
+      {% for stu in qs %}
+        { id: "{% static 'img/logo.jpg' %}", name: "{{stu.title}}", sports: "{{stu.created|date}}" },
+      {% endfor %}
+        ]
+    </script>
+
+{% endblock content %}

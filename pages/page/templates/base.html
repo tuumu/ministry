@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>shadow's</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <link rel="stylesheet" href="{% static 'css/jqui.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'fonta/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/allll.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bar.css' %}">
+  <style type="text/css">
+    
+  </style>
+
+</head>
+<body>
+    <div class="navbar">
+        <div class="container">
+            <a class="logo" href="{%url 'home' %}"><img src="{% static 'img/logoo.jpg' %}" style="width: 100px;"></a> 
+            <a id="mobile-menu" class="mobile-menu">
+                <i class="fa fa-list" style="color: blue;"></i>
+            </a> 
+            
+            <nav>
+                <a id="mobile-exit" class="mobile-menu-exit">
+                    <i class="fa fa-times" style="color: white;"></i>
+                </a>
+                <ul class="primary-nav">
+                    <li class="current"><a href="{%url 'home' %}">Homepage</a></li>
+                    <li><a href="{%url 'sermons' %}">Sermons</a></li>
+                    <li><a href="{%url 'devotions' %}">Devotions</a></li>
+                    <li><a href="{%url 'home' %}">About</a></li>
+                </ul>
+
+                
+            </nav>
+        </div>   
+    </div>
+    <section>
+        {% block content %}
+        <br>
+        <br>
+        
+        {% endblock content %}
+    </section>
+
+    <script src="{% static 'js/jq.js' %}"></script>
+    <script src="{% static 'js/jqui.js' %}"></script>
+    <script>
+      
+        const mobileBtn = document.getElementById('mobile-menu');
+        const nav = document.querySelector('nav');
+        const mobileExit = document.getElementById('mobile-exit');
+
+        mobileBtn.addEventListener('click', () => {
+            nav.classList.add('active');
+
+        })
+        mobileExit.addEventListener('click', () => {
+            nav.classList.remove('active');
+
+        })
+
+        const btns = document.querySelectorAll(".nav-btn");
+        const slides = document.querySelectorAll(".video-slide");
+        const contents = document.querySelectorAll(".content");
+
+        var sliderNav = function(manual){
+           btns.forEach((btn) => {
+             btn.classList.remove("active");  
+           });
+
+           slides.forEach((slide) => {
+             slide.classList.remove("active");  
+           });
+
+           contents.forEach((content) => {
+             content.classList.remove("active");  
+           });
+
+           btns[manual].classList.add("active");
+           slides[manual].classList.add("active")
+           contents[manual].classList.add("active")
+        }
+        
+        btns.forEach((btn, i) => {
+          btn.addEventListener("click",() =>{
+            sliderNav(i);
+          });
+        });
+
+    </script>
+
+
+</body>
+</html>

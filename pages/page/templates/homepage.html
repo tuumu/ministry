@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <title>shadow's</title>
+
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+    <link rel="stylesheet" href="{% static 'fonta/css/all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/allll.css' %}">
+    <style type="text/css" media="all">
+    
+
+    </style>
+
+</head>
+<body>
+    <div class="navbar">
+        <div class="container">
+            <a class="logo" href="{%url 'home' %}"><img src="{% static 'img/logoo.jpg' %}" style="width: 120px;"></a> 
+            <a id="mobile-menu" class="mobile-menu">
+                <i class="fa fa-list" style="color: blue;"></i>
+            </a> 
+            
+            <nav>
+                <a id="mobile-exit" class="mobile-menu-exit">
+                    <i class="fa fa-times" style="color: white;"></i>
+                </a>
+                <ul class="primary-nav">
+                    <li class="current"><a href="{%url 'home' %}">Homepage</a></li>
+                    <li><a href="{%url 'sermons' %}">Sermons</a></li>
+                    <li><a href="{%url 'devotions' %}">Devotions</a></li>
+                    <li><a href="{%url 'home' %}">About</a></li>
+                </ul>
+
+                
+            </nav>
+        </div>   
+    </div>
+    <div> 
+    </div>
+    <br> 
+    <br> 
+    <br> 
+    <br> 
+    <section class="hero">
+        <div class="container">
+            <div class="left-col">
+                <p class="subhead">francis tumusiime ministries</p>
+                <h1>The Finished Work Of Christ</h1>
+
+                <div class="hero-cta">
+                </div>
+            </div>
+            <div class="wdimg">
+                <div class="home">
+                        <h4 class="video-slide active"></h4>
+                        <h4 class="video-slide"></h4>
+                        <h4 class="video-slide"></h4>
+                        <h4 class="video-slide"></h4>
+                        <div class="slider-navigation">
+                            <div class="nav-btn"></div>
+                            <div class="nav-btn"></div>
+                            <div class="nav-btn"></div>
+                            <div class="nav-btn"></div>
+                        </div>
+                        {% for pic in tr %}
+                        <div class="content active">
+                            <img src="{{pic.image.url}}" class="img w-100 car" style="">
+                            <p>
+                            {{pic.title}}
+                            </p>
+                            <p>
+                            {{pic.body}}
+                            </p>
+                            <a href="#" class="aimg">Read More</a>  
+                        </div> 
+                        {% endfor %} 
+                </div>
+                
+            </div>
+            
+        </div>
+    </section>
+    <section class="features-section">
+        <div class="container">
+            {% if  c%}
+            <h4 style="color: blue">
+              {{c.title}}
+            </h4>
+            <cite>{{c.created|date}}</cite>
+            <p>
+              {{c.snippet}}
+            </p>
+            <a href="/{{c.id}}" style="text-decoration: none; width: 150px; border-radius: 2px; outline: solid 2px white; padding: 15px 35px; cursor: pointer; color: white; background: gray;">Read more</a>
+            {% endif %}
+        </div>
+    </section>
+    <section class="testimonials-section">
+        <div class="container">
+            <ul>
+                <li>
+                    <img src="img/icon.jpg" class="icimg">
+                    <blockquote>Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit, sed do 
+                    eiusmod tempor incididunt ut labore 
+                    et dolore magna aliqua. Ut enim ad minim
+                    veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.
+                    </blockquote>  
+                    <cite>Jane Doe</cite> 
+               </li>
+                <li>
+                    <img src="img/icon.jpg" class="icimg">
+                    <blockquote>Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit, sed do 
+                    eiusmod tempor incididunt ut labore 
+                    et dolore magna aliqua. Ut enim ad minim
+                    veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.
+                    </blockquote>  
+                    <cite>Jane Doe</cite> 
+               </li>
+                <li>
+                    <img src="img/icon.jpg" class="icimg">
+                    <blockquote>Lorem ipsum dolor sit amet,
+                    consectetur adipisicing elit, sed do 
+                    eiusmod tempor incididunt ut labore 
+                    et dolore magna aliqua. Ut enim ad minim
+                    veniam, quis nostrud exercitation ullamco
+                    laboris nisi ut aliquip ex ea commodo consequat.
+                    </blockquote>  
+                    <cite>Jane Doe</cite> 
+               </li>
+            </ul>
+        </div>   
+    </section>
+    <section class="contact-section">
+        <div class="container">
+           <div class="contact-left">
+               <h2>Testimonials</h2>
+
+                {% for comment in wat %}
+                  <div class="comments" style="padding: 10px;">
+                    <p class="font-weight-bold">
+                      {{ comment.name }}
+                      <span class=" text-muted font-weight-normal" style="margin-left: 8px">
+                        {{ comment.created_on|date }}
+                      </span>
+                    </p>
+                    {{ comment.body | linebreaks }}
+                  </div>
+                {% endfor %}
+                 <hr>
+                 <h4>
+                     Testify 
+                 </h4>
+                <form method="post" style="margin-top: 1.3em;" autocomplete="off">
+                    {{ form.as_p }}
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
+                </form>
+           </div> 
+           <div class="contact-right">
+               <div class="">
+                   
+               </div>
+           </div>
+  
+        </div>   
+    </section>
+    <script type="text/javascript">
+      
+        const mobileBtn = document.getElementById('mobile-menu');
+        const nav = document.querySelector('nav');
+        const mobileExit = document.getElementById('mobile-exit');
+
+        mobileBtn.addEventListener('click', () => {
+            nav.classList.add('active');
+
+        })
+        mobileExit.addEventListener('click', () => {
+            nav.classList.remove('active');
+
+        })
+
+        const btns = document.querySelectorAll(".nav-btn");
+        const slides = document.querySelectorAll(".video-slide");
+        const contents = document.querySelectorAll(".content");
+
+        var sliderNav = function(manual){
+           btns.forEach((btn) => {
+             btn.classList.remove("active");  
+           });
+
+           slides.forEach((slide) => {
+             slide.classList.remove("active");  
+           });
+
+           contents.forEach((content) => {
+             content.classList.remove("active");  
+           });
+
+           btns[manual].classList.add("active");
+           slides[manual].classList.add("active")
+           contents[manual].classList.add("active")
+        }
+        
+        btns.forEach((btn, i) => {
+          btn.addEventListener("click",() =>{
+            sliderNav(i);
+          });
+        });
+
+
+        
+    </script>
+
+
+</body>
+</html>

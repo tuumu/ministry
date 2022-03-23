@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  <link rel="stylesheet" href="{% static 'css/show.css' %}">
+  <title>sticky navbar</title>
+  
+  <style type="text/css">
+  
+    
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+      <div class="col-sm-12 col-md-12 col-lg-12">
+        <header>
+        <nav>
+          <div class="logo">
+            <a href="#" class="brand">
+              <img src="{% static 'images/logo.jpg' %}" style="width: 120px;">
+            </a>
+          </div>
+          <div class="menu">
+            <ul>
+              <li><a href="">HOME</a></li>
+              <li><a href="">OUR TEAM</a></li>
+              <li><a href="">CONTACT</a></li>
+              
+            </ul>
+            <form action="{%url 'devotions' %}">
+              <div class="col-sm-2">
+              <div class="wrappe">
+                <div class="search-input">
+                    <i class="fas fa-search"></i>
+                    <input type="text" placeholder="search..." name="search" autocomplete="off">
+                    <div>
+                      <div class="autocom-box">
+                      
+                      </div>
+                       
+                    </div>
+                </div>
+              </div>
+            </form>   
+      
+          </div>
+        </nav>
+      </header>
+      {% block content %}
+        
+      {% endblock content %}
+       
+    </div>
+  </div>
+    <script style='text/javascript' src="{% static 'js/jq.js' %}"></script>
+    
+      <script style='text/javascript' src="{% static 'js/bd.js' %}"></script> 
+  <script>
+        $(window).scroll(function() {
+          if($(window).scrollTop()){
+            $("nav").addClass("black");
+          }
+          else{
+            $("nav").removeClass("black");
+          }
+        })
+
+        const searchWrapper = document.querySelector(".search-input");
+      const inputBox = searchWrapper.querySelector("input");
+      const suggBox = searchWrapper.querySelector(".autocom-box");
+
+      var students = [
+        {% for p in pst%}
+          {name:"{{p.title}}"},
+        {% endfor %}
+      ]      
+
+      inputBox.onkeyup = (e)=>{
+          let userData = e.target.value;
+          let emptyArray = [];
+          if(userData){
+              emptyArray = students.filter((data)=>{
+                return data.name.toLocaleLowerCase().includes(userData.toLocaleLowerCase())   
+              });
+              emptyArray = emptyArray.map((data)=>{
+
+                return data = '<li>' + "<img style='width:25px;height:25px;' src='" + data.id + "' /> " + data.name + '</li>'
+              });
+              console.log(emptyArray);
+              searchWrapper.classList.add("active");
+              showsuggestions(emptyArray);
+              let allList = suggBox.querySelectorAll("li"); 
+              for (let i = 0; i < allList.length; i++){
+                  allList[i].setAttribute("onclick", "select(this)");
+              }
+          }
+          else{
+              searchWrapper.classList.remove("active");
+
+          }
+      }
+      function select(element){
+          let selectUserData = element.textContent;
+          inputBox.value = selectUserData;
+          searchWrapper.classList.remove("active");
+          suggBox.display = none;
+      }       
+          
+     
+      function showsuggestions(list){
+          let listData;
+          if(!list.length){
+              userValue = inputBox.value;
+              listData = "<li>"+ userValue +"</li>";
+          }else{
+              listData = list.join('');
+          }
+          suggBox.innerHTML = listData;
+      }
+
+  </script>
+
+</body>
+</html>
