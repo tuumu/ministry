@@ -1,49 +1,67 @@
-from .forms import *
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
-from django.db.models import Q
-from django.core.paginator import Paginator
-#from .forms import *
+from django.db.models import Q 
+from django.contrib import messages
+from .forms import *
+from django.template import loader
+from django.core.paginator import Paginator,EmptyPage,PageNotAnInteger,InvalidPage
+from django.http import JsonResponse
+
 # Create your views here.
-
-
-
-def post(request):
-    pics = Pics_day.objects.all()
-    trend = pics.filter(active=True)
-    post = Post.objects.all()
-    p =[p for p in post]
+def home(request):
+    devotion = Post.objects.all()
+    p =[p for p in devotion]
     c = p[len(p)-1]
+
+    sermon = Media.objects.all()
+    p =[p for p in sermon]
+    serm = p[len(p)-1]
+
+    pics = Pics_day.objects.all()
+    trend = pics.filter(active=False)
+
+    pi = Pics_day.objects.all()
+    pc =[p for p in pi]
+    pic = pc[len(pc)-1]
+
     form = WhatForm(request.POST or None)
     watsups = Whatusay.objects.all()
-    watsup = watsups.filter(active=True)
+    watsup = watsups.filter(active=False)
     if form.is_valid():
         form.save()
         form = WhatForm()
 
-    ctx = {'form':form,'wat':watsup,'c':c,'tr':trend}
-    return render(request, "homepage.html", ctx)
 
+    ctx = {"devotion":c,"sermon":serm,'form':form,'wat':watsup,'tr':trend,'pic':pic}
+    return render(request,'homepage.html',ctx)
 
-def sermons(request):
-    post = AllSongs.objects.all()
-    p =[p for p in post]
-    c = p[len(p)-1]
-    qs = AllSongs.objects.all()
+def devotion(request):
+    qs = Post.objects.all()
     search = request.GET.get('search')
     if search != '' and search is not None:
-            lookups = Q(name__icontains = search) | Q(release__icontains = search)
-            qs = AllSongs.objects.filter(lookups)
-    paginator = Paginator(qs,2)
+            lookups = Q(title__icontains = search)
+            qs = Post.objects.filter(lookups)
+    paginator = Paginator(qs,3)
     page = request.GET.get('page')
     qs = paginator.get_page(page)
-    ctx = {'qs':qs,'c':c}
+    ctx = {'med':qs}
     return render(request, "index.html", ctx)
-    
 
 
-def post_detail(request, pk):
-    template_name = 'post_detail.html'
+def sermon(request):
+    med = Media.objects.all()
+    search = request.GET.get('search')
+    if search != '' and search is not None:
+            lookups = Q(name__icontains = search)
+            med = Media.objects.filter(lookups)
+    paginator = Paginator(med,3)
+    page = request.GET.get('page')
+    med = paginator.get_page(page)
+    ctx = {"med":med}
+    print(search)
+    return render(request,'sermons.html',ctx)
+
+def devotion_detail(request,pk):
     post = get_object_or_404(Post, pk=pk)
     comments = post.comments.filter(active=False)
     new_comment = None
@@ -60,31 +78,12 @@ def post_detail(request, pk):
             new_comment.save()
     else:
         comment_form = CommentForm()
-
-    return render(request, template_name, {'post': post,
-                                           'comments': comments,
-                                           'new_comment': new_comment,
-                                           'comment_form': comment_form})
+    ctx = {'med':post,'new_comment': new_comment,'comment_form': comment_form,'comments': comments}
+    return render(request,'devotion.html',ctx)
 
 
-def devotions(request):
-    qs = Post.objects.all()
-    search = request.GET.get('search')
-    if search != '' and search is not None:
-            lookups = Q(title__icontains = search) | Q(body__icontains = search) | Q(created__icontains = search)
-            qs = Post.objects.filter(lookups)
-    
-    paginator = Paginator(qs,2)
-    page = request.GET.get('page')
-    qs = paginator.get_page(page)
-    user = request.user
-    ctx = {'qs':qs, 'user':user}
-    print(search)
-    return render(request, "devotion.html", ctx)
-
-def sermon_detail(request, pk):
-    template_name = 'show.html'
-    post = get_object_or_404(AllSongs, pk=pk)
+def sermon_detail(request,pk):
+    post = get_object_or_404(Media, pk=pk)
     comments = post.sermon_comments.filter(active=False)
     new_comment = None
     # Comment posted
@@ -100,12 +99,6 @@ def sermon_detail(request, pk):
             new_comment.save()
     else:
         comment_form = CommentForm()
+    ctx = {'med':post,'comments': comments,'new_comment': new_comment,'comment_form': comment_form}
+    return render(request,'sermon.html',ctx)
 
-    return render(request, template_name, {'post': post,
-                                           'comments': comments,
-                                           'new_comment': new_comment,
-                                           'comment_form': comment_form})
-
-def tryy(request):
-    ctx = {}
-    return render(request,"show.html",ctx)

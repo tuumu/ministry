@@ -5,7 +5,7 @@ from django import forms
 class CommentForm(forms.ModelForm):
     class Meta:
         model = Comment
-        fields = ('name','body')
+        fields = ('name', 'body')
 
 class WhatForm(forms.ModelForm):
     class Meta:
@@ -15,4 +15,4 @@ class WhatForm(forms.ModelForm):
 class SermonForm(forms.ModelForm):
     class Meta:
         model = Sermonsay
-        fields = ('name','body')
+        fields = ('name', 'body')
