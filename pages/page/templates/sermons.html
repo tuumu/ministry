@@ -171,46 +171,22 @@
             background: blue;
             color: gold;
         }
-        .carda form{
-        	position: absolute;
-        	width: 100%;
-        }
-        .forma{
-        	position: absolute;
-        	max-width: 1928px;
-        	margin: 0 auto;
-        	display: inline-block;
-        	margin-top: 10px;
-        }
-        .carda form input[type="text"]{
-        	outline: none;
-            width: 600px;
-	        position: unset;
-	        box-sizing: border-box;
-	        
-        }
-        .carda form textarea{
-        	outline: none;
-            width: 600px;
-	        padding: .8em;
-	        box-sizing: border-box;
-	        position: unset;
-        }
-        .card{
-          	outline: none;
-          	border: none;
-          	padding: 0;
-        }
-        .card cite{
-        	font-size: 12px;
-        }
-        .logoo{
-          position: absolute;
-          text-decoration: none; 
-          padding: 5px 25px; 
+        .search-input input[type="text"]{
+          border-radius: 5px;
+          border: none;
+          width: 100%;
+          padding: 8px 25px;
           outline: solid 1px blue;
-          right: 50%;
-          top: 10px;
+        }
+        .search-input input[type="text"]:focus{
+          outline: solid 1px blue;
+        }
+      .search-input .btn {
+          position: absolute;
+          background: white;
+          outline: solid 1px blue;
+          margin-left: 5px;
+          padding: 7px 25px;
         }
         
     	@media only screen and (min-width: 768px){
@@ -267,12 +243,6 @@
             	width: 100%;
             }
 
-            .containera, .containeri{
-              position: absolute;
-              width: 90%;
-              margin-left: 105px;
-          }
-          
 
     	}
     	@media (min-width: 401px) and (max-width: 769px) {
@@ -292,12 +262,6 @@
                 margin: 0 auto;
                 margin-top: 5px;
             } 
-            .carda form input[type="text"]{
-                max-width: 300px;
-	        }
-	        .carda form textarea{
-	            max-width: 300px;
-	        }
             
     	}
     	@media only screen and (max-width: 400px){
@@ -320,15 +284,9 @@
             }
             .search-input .btn{
             	position: absolute;
-            	padding: 7px 12px;
+            	padding: 7px 15px;
 
-            }
-            .carda form input[type="text"]{
-                max-width: 150px;
-	        }
-	        .carda form textarea{
-	            max-width: 150px;
-	        } 
+            } 
             
     	}
     </style>
@@ -347,7 +305,7 @@
 		                    <i class="fa fa-times" style="color: white;"></i>
 		                </a>
 		                <ul class="primary-nav">
-		                    <li class="current"><a href="{%url 'home' %}"">Homepage</a></li>
+		                    <li class="current"><a href="{%url 'home' %}">Homepage</a></li>
 		                    <li><a href="{%url 'sermons' %}">Sermons</a></li>
 		                    <li><a href="{%url 'devotions' %}">Devotions</a></li>
 		                </ul>
@@ -356,58 +314,71 @@
     			</div>
     		</div>
     	</header>
-    	
+    	<div class="containera">
+    		<div class="col-sm-12 col-md-12">
+                <div class="search-input">
+                    <form class="form-inline" action="."> 
+                        <input type="text" placeholder="search..." name="search" autocomplete="off">     
+                        <input type="submit" class="btn" value="search">         
+                        <div class="autocom-box">
+                        </div>
+                    </form>                                         
+                </div>
+            </div>
+    	</div>
+    	<br>
     	<div class="containeri">
     		<div class="carda">
     			<div class="row">
-    			
-    				<div class="col-sm-12 col-md-9 col-lg-9">
+    			{% for me in med %}
+    				<div class="col-sm-12 col-md-4 col-lg-4">
     					<article>
-    						<a class="logoo" href="{%url 'devotions' %}">Back</a>
-    						<h4>{{med.title}}</h4>
-    						<cite>by <span style="color: blue;">{{med.author}}</span></cite> <br> <h6 style="color:gray;">{{med.created|date}}</h6>
-    						<h6 style="line-height: 11px; font-size: 13px;">{{med.body}}</h6>
-    						
-    					</article>
-    					<article>
-    						<div class="card">
-					        {% for comment in comments %}
-					          <div class="comments" style="padding: 10px;">
-					            <p class="font-weight-bold">
-					              {{ comment.name }}
-					              <span class=" text-muted font-weight-normal" style="margin-left: 8px">
-					                {{ comment.created_on }}
-					              </span>
-					            </p>
-					            <cite>{{ comment.body | linebreaks }}</cite>
-					            
-					          </div>
-					         {% endfor %}
-    					    </div>	
-						    <div class="col-sm-12 col-md-9 col-lg-9">
-						        <div class="carda forma">
-						          {% if new_comment %}
-						          <div class="alert alert-success" role="alert">
-						            Your comment is awaiting moderation
-						          </div>
-						          {% else %}
-						          <h3>Leave a comment</h3>
-						          <form method="post" autocomplete="off">
-						            {{ comment_form.as_p }}
-						            {% csrf_token %}
-						            <button type="submit" class="btn btn-primary  btn-lg">Submit</button>
-						          </form>
-						          {% endif %}
-						        </div>
-						    </div>   
+    						<h4>{{me.name}}</h4>
+    						<cite>by <span style="color: blue;">{{me.author}}</span></cite> <br> <h6 style="color:gray;">{{me.created|date}}</h6>
+    						<h6 style="line-height: 11px; font-size: 13px;">{{me.snippet}}</h6>
+    						<a href="{{me.get_absolute_url}}" style="text-decoration: none; padding: 9px 25px; outline: solid 1px blue;">Listen Now</a>
     					</article>
     				</div>
-    			
+    			{% endfor %}
     			</div>
-    		</div>    		
+    		</div>
+    		<div class="row" style="margin-top: 10px">
+              <div class="col-md-3 offset-md-4">
+                  <ul class="pagination">
+                      {% if med.has_previous %}
+                          <li class="page-item">
+                              <a class="page_link" href="?page={{ med.previous_page_number }}" style="text-decoration: none; padding: 9px 20px; outline: solid 1px blue;">Previous</a>
+                          </li>
+                      {% endif %}
+
+                          <li class="page-item active">
+                              <a class="page_link" href="?page={{ med.number }}" style="text-decoration: none; padding: 9px 20px; outline: solid 1px blue;">Current</a>
+                          </li>
+                      
+                      {% if med.has_next  %}
+                          <li class="page-item">
+                              <a class="page_link" href="?page={{ med.next_page_number }}" style="text-decoration: none; padding: 9px 20px; outline: solid 1px blue;">Next</a>
+                          </li>
+                      {% endif %}
+                  </ul>
+              </div>
+            </div>    		
     	</div>
-    	    <script src = "{% static 'js/jq.js' %}"></script> 
-	        <script src = "{% static 'js/bd.js' %}"></script> 
-	        <script src = "{% static 'js/javv.js' %}"></script>
+    	<div class="container">
+	    	<script src="{% static 'js/sarrr.js' %}"></script>
+
+	    	<script src = "{% static 'js/jq.js' %}"></script> 
+	    	<script src = "{% static 'js/bd.js' %}"></script> 
+	    	<script src = "{% static 'js/javv.js' %}"></script>
+
+	    	<script type="text/javascript">
+		    const student = [
+		      {% for stu in med %}
+		        {name: "{{stu.name}}" },
+		      {% endfor %}
+		        ]
+		    </script>
+
+	     </div>
     </body>
 </html>

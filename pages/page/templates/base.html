@@ -1,99 +1,129 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 {% load static %}
-<html>
-<head>
-    <title>shadow's</title>
-
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.1.1/css/all.min.css" integrity="sha512-KfkfwYDsLkIlwQp6LFnl8zNdLGxu9YAA1QvwINks4PhcElQSvqcyVLLD9aMhXd13uQjoXtEKNosOWaZqXgel0g==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="stylesheet" href="{% static 'css/jqui.css' %}">
+<html> 
+  <head> 
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+      <title>swabul's eshop</title>
     <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
     
-    <link rel="stylesheet" href="{% static 'css/allll.css' %}">
-    <link rel="stylesheet" href="{% static 'css/bar.css' %}">
-  <style type="text/css">
-    
-  </style>
-
-</head>
-<body>
-    <div class="navbar">
-        <div class="container">
-            <a class="logo" href="{%url 'home' %}"><img src="{% static 'img/logoo.jpg' %}" style="width: 100px;"></a> 
-            <a id="mobile-menu" class="mobile-menu">
-                <i class="fa fa-bars" style="color: blue;"></i>
-            </a> 
-            
-            <nav>
-                <a id="mobile-exit" class="mobile-menu-exit">
-                    <i class="fa fa-close" style="color: white;"></i>
-                </a>
-                <ul class="primary-nav">
-                    <li class="current"><a href="{%url 'home' %}">Homepage</a></li>
-                    <li><a href="{%url 'sermons' %}">Sermons</a></li>
-                    <li><a href="{%url 'devotions' %}">Devotions</a></li>
-                    <li><a href="{%url 'home' %}">About</a></li>
-                </ul>
-
-                
-            </nav>
-        </div>   
-    </div>
-    <section>
-        {% block content %}
-        <br>
-        <br>
-        
-        {% endblock content %}
-    </section>
-
-    <script src="{% static 'js/jq.js' %}"></script>
-    <script src="{% static 'js/jqui.js' %}"></script>
-    <script>
+    <style type="text/css">
       
-        const mobileBtn = document.getElementById('mobile-menu');
-        const nav = document.querySelector('nav');
-        const mobileExit = document.getElementById('mobile-exit');
+    *{
+  margin: 0;
+  }
+  body{
+    margin: 0;
+    background: white;
+  }
+  header{
+    margin: 0;
+  }
+  .container{
+    margin-top: 50px;
+    position: relative;
+    
 
-        mobileBtn.addEventListener('click', () => {
-            nav.classList.add('active');
+  }
+  .card{
+    position: relative;
+    margin: 0;
+    border-radius: 5px;
+    box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
+    max-height: 500px;
+    overflow-y: auto;
+    display: block;
 
-        })
-        mobileExit.addEventListener('click', () => {
-            nav.classList.remove('active');
+  }
+  .logo{
+    width: 60px;
+    height: 40px;
+    margin-top: -4em;
+  }
+  h1{
+    text-align: center;
+    font-weight: bold;
+  }
 
-        })
+  .wrapper{
+    position: relative;
+    max-width: 300px;
+    max-height: 200px;
+    
+  }
+  .search-input{
+    
+    width: 100%;
+    border-radius: 5px;
+    padding: 0 60px 0 20px;
+    font-size: 18px;
+    
+  }
+  .search-input.active{
+  }
+  input{
+    height: 55px;
+    width: 100%;
+    outline: none;
+    border: none;
+    border-radius: 5px;
+    padding: 0 60px 0 20px;
+    font-size: 18px;
+    background: rgba(0,0,0,0.1);
+    
+  }
+  input:focus {
+    border-radius: 5px 5px 0 0;
+  }
+  
+  
+  .autocom-box{
+    max-height: 200px;
+    overflow-y: auto;
+    opacity: 0;
+    pointer-events:none;
+    box-shadow: 0px 1px 5px rgba(0,0,0,0.1);
+    border-radius: 0 0 5px 5px;
+    background: rgba(0,0,0,0.1);
+  }
+  .autocom-box li{
+    list-style: none;
+    padding: 8px 12px;
+    width: 100%;
+    cursor: default;
+    border-radius: 3px;
+    display: none;
+  }
+  li:hover{
+    background: white;
+  }
+  .search-input.active .autocom-box{
+    padding: 10px 8px;
+    opacity: 1;
+    pointer-events: auto;
+  }
+  .search-input.active .autocom-box li{
+    display: block;
+  }
 
-        const btns = document.querySelectorAll(".nav-btn");
-        const slides = document.querySelectorAll(".video-slide");
-        const contents = document.querySelectorAll(".content");
-
-        var sliderNav = function(manual){
-           btns.forEach((btn) => {
-             btn.classList.remove("active");  
-           });
-
-           slides.forEach((slide) => {
-             slide.classList.remove("active");  
-           });
-
-           contents.forEach((content) => {
-             content.classList.remove("active");  
-           });
-
-           btns[manual].classList.add("active");
-           slides[manual].classList.add("active")
-           contents[manual].classList.add("active")
-        }
-        
-        btns.forEach((btn, i) => {
-          btn.addEventListener("click",() =>{
-            sliderNav(i);
-          });
-        });
-
-    </script>
+    </style>
+  </head> 
+  <body>
+    <div class="ui container">
+      <div>
+          <img class="logo" src="{% static 'img/logo.jpg' %}">
+      </div>
+      <br>
+        {% block content %}   
+        {% endblock content %}
+    </div>
+      <script style='text/javascript' src="{% static 'js/jq.js' %}"></script>
+    
+      <script style='text/javascript' src="{% static 'js/bd.js' %}"></script>
 
 
-</body>
+              
+      </div>
+  </body>
 </html>
