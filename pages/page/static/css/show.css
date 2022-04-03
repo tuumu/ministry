@@ -2,7 +2,7 @@ html,body{
         margin: 0;
         padding: 0;
         width: 100%;
-        background: rgb(40, 0, 0)
+        background:white;
 
         }
         header{
@@ -165,7 +165,7 @@ html,body{
           border-radius: 20px;
           box-shadow: 10px 10px 10px rgb(40,0,0);
           color: gold;
-          background: brown;
+          background: gray;
         }
       .cardd{
         position: unset;

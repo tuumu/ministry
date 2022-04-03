@@ -1,0 +1,41 @@
+	.carousel{
+		max-width: 400px;
+		max-height: 300px;
+            
+
+    }
+    .carousel .carousel-inner{
+        display: inline-block;
+        margin: 0;
+    }
+    .carousel .carousel-inner img{
+        width: 100%;
+        height: 100%;
+        position: unset;
+    }
+
+    .carousel .carousel-inner .cap{
+        position: unset;
+        color: gray;
+        width: 100%;
+        height: 100px;
+        background: white;
+        overflow: hidden;
+        margin: 0px;
+        align-items: center;
+        justify-content: center;
+        line-height: 15px;
+
+    }
+    .slide .carousel-inner .cap:hover{
+        height: 290px;
+        border-radius: 0 0 5px 5px;
+    }
+    .carousel .carousel-inner .cap h5{
+        position: unset;
+        top: 0;
+    }
+    .carousel .carousel-inner .cap .car{
+        margin: 1px;
+    }
+		
